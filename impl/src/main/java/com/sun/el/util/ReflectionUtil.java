@@ -173,16 +173,25 @@ public class ReflectionUtil {
      * making changes keep the code in sync.
      */
     public static Object invokeMethod(ELContext context,
-                               Method m, Object base, Object[] params) {
+            Method m, Object base, Object[] params) {
 
-        Object[] parameters = buildParameters(
-                context, m.getParameterTypes(), m.isVarArgs(), params);
         try {
+            int paramCount = params == null ? 0 : params.length;
+            if (paramCount == 0) {
+                for (Class ParameterType : m.getParameterTypes()) {
+                    if (ParameterType.getName().equals("javax.faces.event.AjaxBehaviorEvent")) {
+                        return m.invoke(base, (Object[]) params);
+                    }
+                }
+            }
+
+            Object[] parameters = buildParameters(
+                    context, m.getParameterTypes(), m.isVarArgs(), params);
             return m.invoke(base, parameters);
         } catch (IllegalAccessException iae) {
             throw new ELException(iae);
         } catch (IllegalArgumentException iae) {
-            throw new ELException(iae);
+            throw new IllegalArgumentException(iae);
         } catch (InvocationTargetException ite) {
             throw new ELException(ite.getCause());
         }
