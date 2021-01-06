@@ -27,6 +27,7 @@
     </parent>
 
     <groupId>org.glassfish</groupId>
+<<<<<<< HEAD
     <artifactId>jakarta.el</artifactId>
     <version>3.0.3-SNAPSHOT</version>
     
@@ -36,6 +37,12 @@
         that describes an expression language for Java applications.
     </description>
     <url>https://projects.eclipse.org/projects/ee4j.el</url>
+=======
+    <artifactId>javax.el</artifactId>
+    <version>3.0.1-b11.payara-p3-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Expression Language 3.0</name>
+>>>>>>> ad62125 (Update artifact versions for the upcoming version)
 
     <properties>
         <!-- the bundle build number must be the same as the maven number -->
