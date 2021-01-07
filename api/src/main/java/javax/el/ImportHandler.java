@@ -36,6 +36,8 @@
  * and therefore, elected the GPL Version 2 license, then the option applies
  * only if the new code is made subject to such option by the copyright
  * holder.
+ *
+ * Portions Copyright [2021] [Payara Foundation and/or its affiliates]
  */
 
 package javax.el;
@@ -46,6 +48,8 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.lang.reflect.Modifier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles imports of class names and package names.  An imported package
@@ -55,6 +59,8 @@ import java.lang.reflect.Modifier;
  * at evaluation time.
  */
 public class ImportHandler {
+
+    private static final Logger logger = Logger.getLogger(ImportHandler.class.getName());
 
     private Map<String, String> classNameMap = new HashMap<String, String>();
     private Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
@@ -176,6 +182,12 @@ public class ImportHandler {
                 return Class.forName(className, false, Thread.currentThread().getContextClassLoader());
             } catch (ClassNotFoundException ex) {
                 notAClass.add(className);
+                logger.log(Level.FINE, ex.getMessage(), ex);
+            }
+        } else {
+            if (logger.isLoggable(Level.FINER)) {
+                String msg = "Class '" + className + "' not found earlier, skipping loading this class";
+                logger.log(Level.FINER, msg, new ClassNotFoundException(msg));
             }
         }
         return null;

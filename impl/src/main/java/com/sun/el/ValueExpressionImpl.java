@@ -36,6 +36,8 @@
  * and therefore, elected the GPL Version 2 license, then the option applies
  * only if the new code is made subject to such option by the copyright
  * holder.
+ *
+ * Portions Copyright [2021] [Payara Foundation and/or its affiliates]
  */
 
 package com.sun.el;
@@ -222,6 +224,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
             ELException {
         EvaluationContext ctx = new EvaluationContext(context, this.fnMapper,
                 this.varMapper);
+        context.putContext(ValueExpression.class, this.expr);
         ctx.notifyBeforeEvaluation(this.expr);
         Object value = this.getNode().getValue(ctx);
         if (this.expectedType != null) {
